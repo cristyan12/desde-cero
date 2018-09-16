@@ -9,16 +9,8 @@
 
 ## About the app
 
-Simple web aplication to follow the topics of the Laravel course from scratch by [Styde.net](https://styde.net/laravel-5/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Simple web aplication to follow the topics of the course "Laravel 5.5 desde cero" by [Styde.net](https://styde.net/laravel-5/)
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This webapp is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
