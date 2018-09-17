@@ -8,7 +8,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return 'Usuarios';
+        return view('users.index');
     }
 
     public function create()
@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        return "Mostrando el detalle del usuario: {$id}";
+        return view('users.show', compact('id'));
     }
 
     public function edit($id)

@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Curso Laravel desde cero | Styde</title>
+    <title>@yield('title') | Styde</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -42,19 +42,23 @@
     </header>
 
     <!-- Begin page content -->
-    <main role="main" class="container">
-      <h1 class="mt-5 display-4">
-        @yield('title-content')
-      </h1>
-      <p class="lead">
-        @yield('content')
-      </p>
-    </main>
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-8">
+                @yield('content')
+            </div>
+            <div class="col-4">
+                @section('sidebar')
+                    <h2 class="display-4">Barra lateral</h2>
+                @show
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
-      <div class="container">
-        <span class="text-muted">2018 &copy; - Cristyan Valera</span>
-      </div>
+        <div class="container">
+            <span class="text-muted">2018 &copy; - Cristyan Valera</span>
+        </div>
     </footer>
 
     <!-- Bootstrap core JavaScript

@@ -1,6 +1,6 @@
 <?php
 
-Route::view('/', 'dashboard');
+Route::view('/', 'index');
 
 Route::get('/users', 'UserController@index');
 
