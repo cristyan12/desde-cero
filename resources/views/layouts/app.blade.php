@@ -21,20 +21,16 @@
     <header>
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Fixed navbar</a>
+        <a class="navbar-brand" href="{{ url('/') }}">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
+              <a class="nav-link" href="{{ route('users.index') }}">
+                Usuarios <span class="sr-only">(current)</span>
+              </a>
             </li>
           </ul>
         </div>
@@ -44,13 +40,8 @@
     <!-- Begin page content -->
     <div class="container">
         <div class="row mt-3">
-            <div class="col-8">
+            <div class="col-md-12">
                 @yield('content')
-            </div>
-            <div class="col-4">
-                @section('sidebar')
-                    <h2 class="display-4">Barra lateral</h2>
-                @show
             </div>
         </div>
     </div>
