@@ -22,7 +22,7 @@
             <td>{{ $user->email }}</td>
             <td>{{ $user->updated_at->diffForHumans() }}</td>
             <td width="10px">
-                <a href="#" class="btn btn-outline-info btn-sm">Ver</a>
+                <a href="{{ route('users.show', $user->id) }}" class="btn btn-outline-info btn-sm">Ver</a>
             </td>
             <td width="10px">
                 <a href="#" class="btn btn-outline-warning btn-sm">Editar</a>

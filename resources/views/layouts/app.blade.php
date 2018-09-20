@@ -14,6 +14,9 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/footer-navbar.css') }}" rel="stylesheet">
+
+    {{-- Font awesome icons --}}
+    {{-- <link href="{{ asset('css/font-awesome-all.css') }}" rel="stylesheet"> --}}
   </head>
 
   <body>

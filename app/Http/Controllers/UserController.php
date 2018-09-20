@@ -19,9 +19,9 @@ class UserController extends Controller
         return 'Crear usuario';
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        return view('users.show', compact('id'));
+        return view('users.show', compact('user'));
     }
 
     public function edit($id)

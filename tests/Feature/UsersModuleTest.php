@@ -2,12 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UsersModuleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     function it_loads_the_users_list()
     {
@@ -19,9 +22,15 @@ class UsersModuleTest extends TestCase
     /** @test */
     function it_loads_the_user_details()
     {
+        $user = factory(User::class)->create([
+            'name' => 'Cristyan Valera',
+            'email' => 'cristyan12@mail.com'
+        ]);
+        
         $response = $this->get('/users/1')
             ->assertStatus(200)
-            ->assertSee('Mostrando el detalle del usuario: 1');
+            ->assertSee("Detalle del Usuario #1, Cristyan Valera")
+            ->assertSee('cristyan12@mail.com');
     }
 
     /** @test */
