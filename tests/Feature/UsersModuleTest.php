@@ -29,8 +29,18 @@ class UsersModuleTest extends TestCase
         
         $response = $this->get('/users/1')
             ->assertStatus(200)
-            ->assertSee("Detalle del Usuario #1, Cristyan Valera")
+            ->assertSee("Cristyan Valera")
             ->assertSee('cristyan12@mail.com');
+    }
+
+    /** @test */
+    function it_show_a_default_message_when_list_of_user_is_empty()
+    {
+        $this->withoutExceptionHandling();
+        
+        $response = $this->get(route('users.index'))
+            ->assertStatus(200)
+            ->assertSee('No hay usuarios registrados');
     }
 
     /** @test */
@@ -38,7 +48,8 @@ class UsersModuleTest extends TestCase
     {
         $response = $this->get('/users/new')
             ->assertStatus(200)
-            ->assertSee('Crear usuario');
+            ->assertViewIs('users.create')
+            ->assertSee('Crear Usuario');
     }
 
      /** @test */

@@ -3,8 +3,14 @@
 @section('title', 'Lista de usuarios')
 
 @section('content')
+
+@if($users->count() == 0)
+<h1 class="display-4">No hay usuarios registrados</h1>
+@else
+
 <h1 class="display-4">Lista de usuarios</h1>
-<table class="table table-borderless table-hover">
+
+<table class="table table-borderless table-sm table-hover">
     <thead class="bg-dark text-white">
         <th>ID</th>
         <th>Name</th>
@@ -15,7 +21,7 @@
         </th>
     </thead>
     <tbody>
-        @foreach($users as $user)
+        @forelse($users as $user)
         <tr>
             <td width="10px">{{ $user->id }}</td>
             <td>{{ $user->name }}</td>
@@ -34,4 +40,8 @@
         @endforeach
     </tbody>
 </table>
+@endif
+
+{{ $users->render() }}
+
 @endsection

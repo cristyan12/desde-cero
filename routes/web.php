@@ -8,6 +8,9 @@ Route::get('/users', 'UserController@index')
 Route::get('users/new', 'UserController@create')
     ->name('users.create');
 
+Route::post('users/store', 'UserController@store')
+    ->name('users.store');
+
 Route::get('users/{user}', 'UserController@show')
     ->where('user', '[0-9]+')
     ->name('users.show');
