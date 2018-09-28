@@ -10,7 +10,7 @@
 
 <h1 class="display-4">Lista de usuarios</h1>
 
-<table class="table table-borderless table-sm table-hover">
+<table class="table table-borderless table-striped table-hover">
     <thead class="bg-dark text-white">
         <th>ID</th>
         <th>Name</th>

@@ -2,14 +2,41 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\{User, Profession};
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class UsersModuleTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @test */
+    function it_loads_the_new_user_page()
+    {
+        $response = $this->get('/users/new')
+            ->assertStatus(200)
+            ->assertViewIs('users.create')
+            ->assertSee('Crear Usuario');
+    }
+
+    /** @test */
+    function it_creates_a_new_user()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->post(route('users.store'), [
+            'name' => 'Cristyan',
+            'email' => 'cristyan12@mail.com',
+            'password' => '123456'
+        ])->assertRedirect(route('users.index'));
+
+        $this->assertCredentials([
+            'name' => 'Cristyan',
+            'email' => 'cristyan12@mail.com',
+            'password' => '123456'
+        ]);
+    }
 
     /** @test */
     function it_loads_the_users_list()
@@ -22,15 +49,23 @@ class UsersModuleTest extends TestCase
     /** @test */
     function it_loads_the_user_details()
     {
+        $this->withoutExceptionHandling();
+
+        $profession = factory(Profession::class)->create([
+            'title' => 'Desarrollador web'
+        ]);
+
         $user = factory(User::class)->create([
             'name' => 'Cristyan Valera',
-            'email' => 'cristyan12@mail.com'
+            'email' => 'cristyan12@mail.com',
+            'profession_id' => $profession->id,
         ]);
         
-        $response = $this->get('/users/1')
+        $response = $this->get(route('users.show', $user))
             ->assertStatus(200)
-            ->assertSee("Cristyan Valera")
-            ->assertSee('cristyan12@mail.com');
+            ->assertSee('Cristyan Valera')
+            ->assertSee('cristyan12@mail.com')
+            ->assertSee('Desarrollador web');
     }
 
     /** @test */
@@ -41,22 +76,5 @@ class UsersModuleTest extends TestCase
         $response = $this->get(route('users.index'))
             ->assertStatus(200)
             ->assertSee('No hay usuarios registrados');
-    }
-
-    /** @test */
-    function it_loads_the_new_user_page()
-    {
-        $response = $this->get('/users/new')
-            ->assertStatus(200)
-            ->assertViewIs('users.create')
-            ->assertSee('Crear Usuario');
-    }
-
-     /** @test */
-    function it_loads_the_edit_user_page()
-    {
-        $response = $this->get('/users/5/edit')
-            ->assertStatus(200)
-            ->assertSee('Editando usuario: 5');
     }
 }

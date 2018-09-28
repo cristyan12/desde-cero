@@ -9,7 +9,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('id')->paginate(10);
+        $users = User::with('profession')
+            ->orderBy('id')
+            ->paginate(10);
         
         return view('users.index', compact('users'));
     }
@@ -19,13 +21,26 @@ class UserController extends Controller
         return view('users.create');
     }
 
+    public function store()
+    {
+        $data = request()->all();
+
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password'])
+        ]);
+
+        return redirect()->route('users.index');
+    }
+
     public function show(User $user)
     {
         return view('users.show', compact('user'));
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        return "Editando usuario: {$id}";
+        return "Editando usuario: {$user->name}";
     }
 }
