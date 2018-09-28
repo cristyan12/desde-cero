@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
             'profession_id' => $professionId,
         ]);
         
-        factory(User::class, 299)->create([
+        factory(User::class, 5)->create([
             'profession_id' => function () {
                 return rand(1, Profession::count());
             },

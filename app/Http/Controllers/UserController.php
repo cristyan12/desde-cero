@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\{User, Profession};
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -18,7 +18,9 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+        $professions = Profession::get();
+
+        return view('users.create', compact('professions'));
     }
 
     public function store()
@@ -28,6 +30,7 @@ class UserController extends Controller
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'profession_id' => $data['profession'],
             'password' => bcrypt($data['password'])
         ]);
 

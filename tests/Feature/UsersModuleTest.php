@@ -25,15 +25,21 @@ class UsersModuleTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
+        $profession = factory(Profession::class)->create([
+            'title' => 'Desarrollador web'
+        ]);
+
         $this->post(route('users.store'), [
             'name' => 'Cristyan',
             'email' => 'cristyan12@mail.com',
+            'profession_id' => $profession->id,
             'password' => '123456'
         ])->assertRedirect(route('users.index'));
 
         $this->assertCredentials([
             'name' => 'Cristyan',
             'email' => 'cristyan12@mail.com',
+            'profession_id' => $profession->id,
             'password' => '123456'
         ]);
     }
