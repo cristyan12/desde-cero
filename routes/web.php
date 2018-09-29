@@ -5,10 +5,10 @@ Route::view('/', 'home');
 Route::get('/users', 'UserController@index')
     ->name('users.index');
 
-Route::get('users/new', 'UserController@create')
+Route::get('users/create', 'UserController@create')
     ->name('users.create');
 
-Route::post('users/store', 'UserController@store')
+Route::post('users', 'UserController@store')
     ->name('users.store');
 
 Route::get('users/{user}', 'UserController@show')

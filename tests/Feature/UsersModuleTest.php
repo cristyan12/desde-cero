@@ -14,7 +14,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function it_loads_the_new_user_page()
     {
-        $response = $this->get('/users/new')
+        $response = $this->get('/users/create')
             ->assertStatus(200)
             ->assertViewIs('users.create')
             ->assertSee('Crear Usuario');
@@ -32,7 +32,7 @@ class UsersModuleTest extends TestCase
         $this->post(route('users.store'), [
             'name' => 'Cristyan',
             'email' => 'cristyan12@mail.com',
-            'profession_id' => $profession->id,
+            'profession' => $profession->id,
             'password' => '123456'
         ])->assertRedirect(route('users.index'));
 
@@ -42,6 +42,42 @@ class UsersModuleTest extends TestCase
             'profession_id' => $profession->id,
             'password' => '123456'
         ]);
+    }
+
+    /** @test */
+    function the_name_field_is_required()
+    {
+        $profession = factory(Profession::class)->create();
+
+        $this->from('users')
+            ->post(route('users.store'), [
+                'name' => '',
+                'email' => 'cristyan12@mail.com',
+                'profession' => $profession->id,
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.store'))
+            ->assertSessionHasErrors(['name']);
+
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function the_email_field_is_required()
+    {
+        $profession = factory(Profession::class)->create();
+
+        $this->from('users')
+            ->post(route('users.store'), [
+                'name' => 'Cristyan',
+                'email' => '',
+                'profession' => $profession->id,
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.store'))
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertEquals(0, User::count());
     }
 
     /** @test */
