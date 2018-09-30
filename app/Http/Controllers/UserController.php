@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $professions = Profession::get();
+        $professions = Profession::orderBy('id')->pluck('title', 'id');
 
         return view('users.create', compact('professions'));
     }
@@ -27,15 +27,16 @@ class UserController extends Controller
     {
         $data = request()->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'profession' => 'required',
             'password' => ''
         ], [
-            'name.required'             => 'El campo Nombre es obligatorio.',
-            'email.required'            => 'El campo Email es obligatorio.',
-            'profession.required'    => 'El campo Profesión es obligatorio.',
+            'name.required'         => 'El campo Nombre es obligatorio.',
+            'email.required'        => 'El campo Email es obligatorio.',
+            'email.unique'          => 'El Email ingresado ya está registrado.',
+            'profession.required'   => 'El campo Profesión es obligatorio.',
         ]);
-
+        
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],

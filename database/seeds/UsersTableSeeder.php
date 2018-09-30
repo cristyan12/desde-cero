@@ -16,15 +16,9 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'name' => 'Cristyan Valera',
-            'email' => 'cristyan12@gmail.com',
+            'email' => 'cristyan12@mail.com',
             'password' => bcrypt('123'),
             'profession_id' => $professionId,
-        ]);
-        
-        factory(User::class, 5)->create([
-            'profession_id' => function () {
-                return rand(1, Profession::count());
-            },
         ]);
     }
 }

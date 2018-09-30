@@ -81,6 +81,30 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
+    function the_email_field_must_be_unique()
+    {
+        // $this->withoutExceptionHandling();
+        
+        factory(User::class)->create([
+            'email' => 'cristyan@mail.com',
+        ]);
+
+        $profession = factory(Profession::class)->create();
+
+        $this->from('users')
+            ->post(route('users.store'), [
+                'name' => 'Cristyan',
+                'email' => 'cristyan@mail.com',
+                'profession' => $profession->id,
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.store'))
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertEquals(1, User::count());
+    }
+
+    /** @test */
     function it_loads_the_users_list()
     {
         $response = $this->get('/users')
