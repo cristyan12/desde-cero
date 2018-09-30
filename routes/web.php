@@ -18,6 +18,9 @@ Route::get('users/{user}', 'UserController@show')
 Route::get('users/{user}/edit', 'UserController@edit')
     ->name('users.edit');
 
+Route::put('users/{user}', 'UserController@update')
+    ->name('users.update');
+
 Route::get('saludos/{name}/{nickname}', 'WelcomeUserController@greetings');
 
 Route::get('saludos/{name}', 'WelcomeUserController@withoutNickname');

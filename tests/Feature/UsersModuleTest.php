@@ -82,9 +82,7 @@ class UsersModuleTest extends TestCase
 
     /** @test */
     function the_email_field_must_be_unique()
-    {
-        // $this->withoutExceptionHandling();
-        
+    {        
         factory(User::class)->create([
             'email' => 'cristyan@mail.com',
         ]);
@@ -102,6 +100,30 @@ class UsersModuleTest extends TestCase
             ->assertSessionHasErrors(['email']);
 
         $this->assertEquals(1, User::count());
+    }
+
+    /** @test */
+    function it_can_load_the_form_to_update_user()
+    {
+        $this->withoutExceptionHandling();
+
+        $profession = factory(Profession::class)->create([
+            'title' => 'Carpintero'
+        ]);
+
+        $user = factory(User::class)->create([
+            'name' => 'Cristyan',
+            'email' => 'cristyan@mail.com',
+            'profession_id' => $profession->id
+        ]);
+
+        $this->get("users/{$user->id}/edit")
+            ->assertStatus(200)
+            ->assertViewIs('users.edit')
+            ->assertViewHasAll(['user', 'professions'])
+            ->assertSee('Cristyan')
+            ->assertSee('cristyan@mail.com')
+            ->assertSee('Carpintero');
     }
 
     /** @test */

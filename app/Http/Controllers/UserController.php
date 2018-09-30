@@ -54,6 +54,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return "Editando usuario: {$user->name}";
+        $professions = Profession::orderBy('id')->pluck('title', 'id');
+
+        return view('users.edit', compact('user', 'professions'));
     }
 }

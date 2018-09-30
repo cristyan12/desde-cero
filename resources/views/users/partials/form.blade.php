@@ -7,8 +7,8 @@
     {{ Form::email('email', null, ['class' => 'form-control']) }}    
 </div>
 <div class="form-group">
-    {{ Form::label('profession', 'Profesión:*') }}
-    {{ Form::select('profession', $professions, null, [
+    {{ Form::label('profession_id', 'Profesión:*') }}
+    {{ Form::select('profession_id', $professions, null, [
         'class' => 'custom-select',
         'placeholder' => 'Seleccione una profesión...'
     ]) }}
