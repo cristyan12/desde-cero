@@ -64,7 +64,7 @@ class UsersModuleTest extends TestCase
         $this->post(route('users.store'), [
             'name' => 'Cristyan',
             'email' => 'cristyan12@mail.com',
-            'profession' => $profession->id,
+            'profession_id' => $profession->id,
             'password' => '123456'
         ])->assertRedirect(route('users.index'));
 
