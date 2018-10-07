@@ -8,7 +8,14 @@
 <h1 class="display-4">No hay usuarios registrados</h1>
 @else
 
-<h1 class="display-4">Lista de usuarios</h1>
+<div class="d-flex justify-content-between align-items-end mb-3">
+    <h1 class="pb-1 display-4">Lista de usuarios</h1>
+    <p>
+        <a href="{{ route('users.create') }}" class="btn btn-outline-primary">
+            Nuevo usuario
+        </a>
+    </p>
+</div>
 
 <table class="table table-borderless table-striped table-hover">
     <thead class="bg-dark text-white">
