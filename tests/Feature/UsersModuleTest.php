@@ -151,4 +151,26 @@ class UsersModuleTest extends TestCase
             ->assertSee('cristyan@mail.com')
             ->assertSee('Carpintero');
     }
+
+    /** @test */
+    function it_update_the_user()
+    {
+        $profession = $this->create(Profession::class);
+
+        $user = $this->create(User::class);
+
+        $this->put(route('users.update', $user->id), [
+            'name' => 'Cristyan',
+            'email' => 'cristyan12@mail.com',
+            'profession_id' => $profession->id,
+            'password' => '123456'
+        ])->assertRedirect("users/{$user->id}");
+
+        $this->assertCredentials([
+            'name' => 'Cristyan',
+            'email' => 'cristyan12@mail.com',
+            'profession_id' => $profession->id,
+            'password' => '123456'
+        ]);
+    }
 }
