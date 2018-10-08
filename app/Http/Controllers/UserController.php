@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         $data = request()->validate([
             'name' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => 'required|email|unique:users,email',
             'profession_id' => 'required',
             'password' => ''
         ], [
@@ -61,7 +61,18 @@ class UserController extends Controller
 
     public function update(User $user)
     {
-        $data = request()->all();
+        $data = request()->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'profession_id' => 'required',
+            'password' => 'required'
+        ], [
+            'name.required'             => 'El campo Nombre es obligatorio.',
+            'email.required'            => 'El campo Email es obligatorio.',
+            'email.unique'              => 'El Email ingresado ya está registrado.',
+            'profession_id.required'    => 'El campo Profesión es obligatorio.',
+            'password.required'         => 'El campo contraseña es obligatorio.',
+        ]);
 
         $data['password'] = bcrypt($data['password']);
 

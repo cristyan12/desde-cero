@@ -113,6 +113,24 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
+    function the_email_field_must_be_valid_email()
+    {
+        $profession = $this->create(Profession::class);
+
+        $this->from('users')
+            ->post(route('users.store'), [
+                'name' => 'Cristyan',
+                'email' => 'correo-no-valido',
+                'profession' => $profession->id,
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.store'))
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
     function the_email_field_must_be_unique()
     {        
         $this->create(User::class, ['email' => 'cristyan@mail.com']);
@@ -164,7 +182,7 @@ class UsersModuleTest extends TestCase
             'email' => 'cristyan12@mail.com',
             'profession_id' => $profession->id,
             'password' => '123456'
-        ])->assertRedirect("users/{$user->id}");
+        ])->assertRedirect(route('users.show', $user));
 
         $this->assertCredentials([
             'name' => 'Cristyan',
@@ -172,5 +190,103 @@ class UsersModuleTest extends TestCase
             'profession_id' => $profession->id,
             'password' => '123456'
         ]);
+    }
+
+    /** @test */
+    function the_name_field_is_required_when_updating_a_user()
+    {
+        $profession = $this->create(Profession::class);
+        
+        $user = $this->create(User::class);
+
+        $this->from(route('users.edit', $user->id))
+            ->put("users/{$user->id}", [
+                'name' => '',
+                'email' => 'cristyan12@mail.com',
+                'profession_id' => $profession->id,
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.edit', $user->id))
+            ->assertSessionHasErrors(['name']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'cristyan12@mail.com']);
+    }
+
+    /** @test */
+    function the_email_field_is_required_when_updating_a_user()
+    {
+        $profession = $this->create(Profession::class);
+        
+        $user = $this->create(User::class);
+
+        $this->from(route('users.edit', $user->id))
+            ->put("users/{$user->id}", [
+                'name' => 'Cristyan',
+                'email' => '',
+                'profession_id' => $profession->id,
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.edit', $user->id))
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users', ['name' => 'Cristyan']);
+    }
+
+    /** @test */
+    function the_email_field_is_must_be_valid_when_updating_a_user()
+    {
+        $profession = $this->create(Profession::class);
+        
+        $user = $this->create(User::class);
+
+        $this->from(route('users.edit', $user->id))
+            ->put("users/{$user->id}", [
+                'name' => 'Cristyan',
+                'email' => 'correo-no-valido',
+                'profession_id' => $profession->id,
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.edit', $user->id))
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users', ['name' => 'Cristyan']);
+    }
+
+    /** @test */
+    function the_profession_id_field_is_required_when_updating_a_user()
+    {
+        $user = $this->create(User::class);
+
+        $this->from(route('users.edit', $user->id))
+            ->put("users/{$user->id}", [
+                'name' => 'Cristyan',
+                'email' => '',
+                'profession_id' => '',
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.edit', $user->id))
+            ->assertSessionHasErrors(['profession_id']);
+
+        $this->assertDatabaseMissing('users', ['name' => 'Cristyan']);
+    }
+
+     /** @test */
+    function the_password_field_must_be_unique_when_updating_a_user()
+    {
+        $profession = $this->create(Profession::class);
+        
+        $user = $this->create(User::class);
+
+        $this->from(route('users.edit', $user->id))
+            ->put("users/{$user->id}", [
+                'name' => 'Cristyan',
+                'email' => 'cristyan12@mail.com',
+                'profession_id' => $profession->id,
+                'password' => ''
+            ])
+            ->assertRedirect(route('users.edit', $user->id))
+            ->assertSessionHasErrors(['password']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'cristyan12@mail.com']);
     }
 }
