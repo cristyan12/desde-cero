@@ -26,15 +26,15 @@ class UserController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'name'          => 'required',
+            'email'         => 'required|email|unique:users,email',
             'profession_id' => 'required',
-            'password' => ''
+            'password'      => ''
         ], [
-            'name.required'         => 'El campo Nombre es obligatorio.',
-            'email.required'        => 'El campo Email es obligatorio.',
-            'email.unique'          => 'El Email ingresado ya está registrado.',
-            'profession_id.required'   => 'El campo Profesión es obligatorio.',
+            'name.required'             => 'El campo Nombre es obligatorio.',
+            'email.required'            => 'El campo Email es obligatorio.',
+            'email.unique'              => 'El Email ingresado ya está registrado.',
+            'profession_id.required'    => 'El campo Profesión es obligatorio.',
         ]);
         
         User::create([
@@ -62,10 +62,10 @@ class UserController extends Controller
     public function update(User $user)
     {
         $data = request()->validate([
-            'name' => 'required',
-            'email' => 'required|email',
+            'name'          => 'required',
+            'email'         => 'required|email',
             'profession_id' => 'required',
-            'password' => 'required'
+            'password'      => ''
         ], [
             'name.required'             => 'El campo Nombre es obligatorio.',
             'email.required'            => 'El campo Email es obligatorio.',
@@ -74,7 +74,11 @@ class UserController extends Controller
             'password.required'         => 'El campo contraseña es obligatorio.',
         ]);
 
-        $data['password'] = bcrypt($data['password']);
+        if ($data['password'] != null) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
 
         $user->update($data);
 

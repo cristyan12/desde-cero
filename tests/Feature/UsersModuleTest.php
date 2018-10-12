@@ -271,11 +271,17 @@ class UsersModuleTest extends TestCase
     }
 
      /** @test */
-    function the_password_field_must_be_unique_when_updating_a_user()
+    function the_password_field_is_optional_when_updating_the_user()
     {
+        $this->withoutExceptionHandling();
+
+        $oldPassword = 'CLAVE_ANTERIOR';
+
         $profession = $this->create(Profession::class);
         
-        $user = $this->create(User::class);
+        $user = $this->create(User::class, [
+            'password' => bcrypt($oldPassword)
+        ]);
 
         $this->from(route('users.edit', $user->id))
             ->put("users/{$user->id}", [
@@ -284,9 +290,12 @@ class UsersModuleTest extends TestCase
                 'profession_id' => $profession->id,
                 'password' => ''
             ])
-            ->assertRedirect(route('users.edit', $user->id))
-            ->assertSessionHasErrors(['password']);
+            ->assertRedirect(route('users.show', $user));
 
-        $this->assertDatabaseMissing('users', ['email' => 'cristyan12@mail.com']);
+        $this->assertCredentials([
+            'name' => 'Cristyan',
+            'email' => 'cristyan12@mail.com',
+            'password' => $oldPassword
+        ]);
     }
 }
