@@ -193,6 +193,34 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
+    function the_email_must_be_unique_when_updating_a_user()
+    {
+        // $this->withoutExceptionHandling();
+        
+        $profession = $this->create(Profession::class);
+     
+        $this->create(User::class, [
+            'email' => 'existing-email@mail.com'
+        ]);
+
+        $user = $this->create(User::class, [
+            'email' => 'cristyan12@mail.com'
+        ]);
+
+        $this->from(route('users.edit', $user->id))
+            ->put("users/{$user->id}", [
+                'name' => 'Cristyan',
+                'email' => 'existing-email@mail.com',
+                'profession_id' => $profession->id,
+                'password' => '123456'
+            ])
+            ->assertRedirect(route('users.edit', $user->id))
+            ->assertSessionHasErrors(['email']);
+
+        // $this->assertDatabaseMissing('users', ['email' => 'cristyan12@mail.com']);
+    }
+
+    /** @test */
     function the_name_field_is_required_when_updating_a_user()
     {
         $profession = $this->create(Profession::class);
