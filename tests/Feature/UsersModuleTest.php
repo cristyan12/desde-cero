@@ -301,8 +301,6 @@ class UsersModuleTest extends TestCase
      /** @test */
     function the_password_field_is_optional_when_updating_the_user()
     {
-        $this->withoutExceptionHandling();
-
         $oldPassword = 'CLAVE_ANTERIOR';
 
         $profession = $this->create(Profession::class);
@@ -324,6 +322,25 @@ class UsersModuleTest extends TestCase
             'name' => 'Cristyan',
             'email' => 'cristyan12@mail.com',
             'password' => $oldPassword
+        ]);
+    }
+
+    /** @test */
+    function it_can_delete_a_user()
+    {
+        $this->withoutExceptionHandling();
+
+        $profession = $this->create(Profession::class);
+        
+        $user = $this->create(User::class, [
+            'email' => 'cristyan12@mail.com'
+        ]);
+
+        $this->delete("users/{$user->id}")
+            ->assertRedirect(route('users.index'));
+
+        $this->assertDatabaseMissing('users', [
+            'email' => 'cristyan12@mail.com'
         ]);
     }
 }

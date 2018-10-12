@@ -38,7 +38,11 @@
                     <a href="{{ route('users.edit', $user) }}" class="btn btn-outline-warning btn-sm">Editar</a>
                 </td>
                 <td width="10px">
-                    <a href="#" class="btn btn-outline-danger btn-sm">Eliminar</a>
+                    {!! Form::open(['route' => ['users.delete', $user->id], 'method' => 'DELETE']) !!}
+                        <button class="btn btn-outline-danger btn-sm">
+                            Eliminar
+                        </button>
+                    {!! Form::close() !!}
                 </td>
             </tr>
             @endforeach

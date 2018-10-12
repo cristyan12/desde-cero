@@ -23,9 +23,11 @@
                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-warning btn-sm">
                 Editar
                 </a>
-                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-danger btn-sm">
-                    Eliminar
-                </a>
+                {!! Form::open(['route' => ['users.delete', $user->id], 'method' => 'DELETE']) !!}
+                    <button class="btn btn-outline-danger btn-sm">
+                        Eliminar
+                    </button>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>

@@ -20,5 +20,11 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123'),
             'profession_id' => $professionId,
         ]);
+
+        factory(User::class, 4)->create([
+            'profession_id' => function () {
+                return rand(1, Profession::count());
+            },
+        ]);
     }
 }
