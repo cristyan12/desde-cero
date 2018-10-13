@@ -326,21 +326,13 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
-    function it_can_delete_a_user()
+    function it_deletes_a_user()
     {
-        $this->withoutExceptionHandling();
-
-        $profession = $this->create(Profession::class);
-        
-        $user = $this->create(User::class, [
-            'email' => 'cristyan12@mail.com'
-        ]);
+        $user = $this->create(User::class);
 
         $this->delete("users/{$user->id}")
             ->assertRedirect(route('users.index'));
 
-        $this->assertDatabaseMissing('users', [
-            'email' => 'cristyan12@mail.com'
-        ]);
+        $this->assertSame(0, User::count());
     }
 }

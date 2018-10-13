@@ -14,17 +14,17 @@ class UsersTableSeeder extends Seeder
     {
         $professionId = Profession::where('title', 'Desarrollador back-end')->value('id');
 
+        factory(User::class, 19)->create([
+            'profession_id' => function () {
+                return rand(1, Profession::count());
+            },
+        ]);
+
         User::create([
             'name' => 'Cristyan Valera',
             'email' => 'cristyan12@mail.com',
             'password' => bcrypt('123'),
             'profession_id' => $professionId,
-        ]);
-
-        factory(User::class, 4)->create([
-            'profession_id' => function () {
-                return rand(1, Profession::count());
-            },
         ]);
     }
 }
