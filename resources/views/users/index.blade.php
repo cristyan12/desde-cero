@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="d-flex justify-content-between align-items-end mb-3">
-        <h1 class="pb-1 display-4">Lista de usuarios</h1>
+    <h1 class="pb-1 display-4">Lista de usuarios</h1>
     <p>
         <a href="{{ route('users.create') }}" class="btn btn-outline-primary">
             Nuevo usuario
@@ -32,13 +32,13 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->updated_at->diffForHumans() }}</td>
                 <td width="10px">
-                    <a href="{{ route('users.show', $user->id) }}" class="btn btn-outline-info btn-sm">Ver</a>
+                    <a href="{{ route('users.show', $user) }}" class="btn btn-outline-info btn-sm">Ver</a>
                 </td>
                 <td width="10px">
                     <a href="{{ route('users.edit', $user) }}" class="btn btn-outline-warning btn-sm">Editar</a>
                 </td>
                 <td width="10px">
-                    {!! Form::open(['route' => ['users.delete', $user->id], 'method' => 'DELETE']) !!}
+                    {!! Form::open(['route' => ['users.delete', $user], 'method' => 'DELETE']) !!}
                         <button class="btn btn-outline-danger btn-sm">
                             Eliminar
                         </button>

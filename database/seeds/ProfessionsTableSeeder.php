@@ -47,7 +47,5 @@ class ProfessionsTableSeeder extends Seeder
         factory(Profession::class)->create([
             'title' => 'Gerente de oficina'
         ]);
-
-        factory(Profession::class, 7)->create();
     }
 }
