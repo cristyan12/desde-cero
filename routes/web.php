@@ -18,4 +18,11 @@ Route::get('/professions', 'ProfessionController@index')->name('professions.inde
 
 Route::post('professions', 'ProfessionController@store')->name('professions.store');
 
+Route::get('professions/{profession}', 'ProfessionController@show')->name('professions.show')
+    ->where('profession', '[0-9]+');
+
+Route::get('professions/{profession}/edit', 'ProfessionController@edit')->name('professions.edit');
+
+Route::put('professions/{profession}', 'ProfessionController@update')->name('professions.update');
+
 

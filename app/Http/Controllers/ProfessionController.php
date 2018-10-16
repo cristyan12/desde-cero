@@ -30,4 +30,21 @@ class ProfessionController extends Controller
 
         return redirect()->route('professions.index');
     }
+
+    public function show(Profession $profession)
+    {
+        return view('professions.show', compact('profession'));
+    }
+
+    public function edit(Profession $profession)
+    {
+        return view('professions.edit', compact('profession'));
+    }
+
+    public function update(Profession $profession)
+    {
+        $profession->update(request()->all());
+
+        return redirect()->route('professions.show', $profession);
+    }
 }

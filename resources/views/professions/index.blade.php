@@ -18,7 +18,7 @@
         <thead class="bg-dark text-white">
             <th>ID</th>
             <th>Title</th>
-            {{-- <th>Last updated</th> --}}
+            <th>Last updated</th>
             <th colspan="3">
                 &nbsp;
             </th>
@@ -28,9 +28,9 @@
             <tr>
                 <td width="10px">{{ $profession->id }}</td>
                 <td>{{ $profession->title }}</td>
-                {{-- <td>{{ $profession->updated_at->diffForHumans() }}</td> --}}
+                <td>{{ $profession->updated_at->diffForHumans() }}</td>
                 <td width="10px">
-                    <a href="#" class="btn btn-outline-info btn-sm">Ver</a>
+                    <a href="{{ route('professions.show', $profession) }}" class="btn btn-outline-info btn-sm">Ver</a>
                 </td>
                 <td width="10px">
                     <a href="#" class="btn btn-outline-warning btn-sm">Editar</a>

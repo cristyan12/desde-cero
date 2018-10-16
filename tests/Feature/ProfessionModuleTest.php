@@ -74,4 +74,50 @@ class ProfessionModuleTest extends TestCase
 
         $this->assertSame(1, Profession::count());
     }
+
+     /** @test */
+    function it_loads_the_profession_details()
+    {
+        $profession = $this->create(Profession::class, [
+            'title' => 'Profesión 101'
+        ]);
+
+        $response = $this->get(route('professions.show', $profession))
+            ->assertStatus(200)
+            ->assertViewIs('professions.show')
+            ->assertViewHas('profession')
+            ->assertSee('Detalle de la profesión')
+            ->assertSee('Profesión 101');
+    }
+
+    /** @test */
+    function it_can_loads_the_edit_page_of_professions()
+    {
+        $this->withoutExceptionHandling();
+
+        $profession = $this->create(Profession::class, [
+            'title' => 'Carpintero'
+        ]);
+
+        $response = $this->get(route('professions.edit', $profession))
+            ->assertStatus(200)
+            ->assertViewIs('professions.edit')
+            ->assertViewHas('profession')
+            ->assertSee('Actualizar Profesión')
+            ->assertSee('Carpintero');
+    }
+
+    /** @test */
+    function it_update_a_profession()
+    {
+        $this->withoutExceptionHandling();
+        
+        $profession = $this->create(Profession::class);
+
+        $this->put(route('professions.update', $profession), [
+            'title' => 'Carpintero'
+        ])->assertRedirect(route('professions.show', $profession));
+
+        $this->assertDatabaseHas('professions', ['title' => 'Carpintero']);
+    }
 }
