@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Profession;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProfessionController extends Controller
 {
@@ -43,8 +44,23 @@ class ProfessionController extends Controller
 
     public function update(Profession $profession)
     {
-        $profession->update(request()->all());
+        $profession->update(request()->validate([
+            'title' => [
+                'required',
+                Rule::unique('professions')->ignore($profession->id),
+            ],
+            [
+                'title.unique' => 'El título de la profesión ya ha sido tomado, por favor elija otro.'
+            ]
+        ]));
 
         return redirect()->route('professions.show', $profession);
+    }
+
+    public function destroy(Profession $profession)
+    {
+        $profession->delete();
+
+        return redirect()->route('professions.index');
     }
 }

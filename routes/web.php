@@ -25,4 +25,6 @@ Route::get('professions/{profession}/edit', 'ProfessionController@edit')->name('
 
 Route::put('professions/{profession}', 'ProfessionController@update')->name('professions.update');
 
+Route::delete('professions/{profession}', 'ProfessionController@destroy')->name('professions.delete');
+
 

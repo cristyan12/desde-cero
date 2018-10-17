@@ -19,12 +19,12 @@
             <th>ID</th>
             <th>Title</th>
             <th>Last updated</th>
-            <th colspan="3">
+            <th colspan="2">
                 &nbsp;
             </th>
         </thead>
         <tbody>
-            @forelse($professions as $profession)
+            @foreach($professions as $profession)
             <tr>
                 <td width="10px">{{ $profession->id }}</td>
                 <td>{{ $profession->title }}</td>
@@ -33,15 +33,7 @@
                     <a href="{{ route('professions.show', $profession) }}" class="btn btn-outline-info btn-sm">Ver</a>
                 </td>
                 <td width="10px">
-                    <a href="#" class="btn btn-outline-warning btn-sm">Editar</a>
-                </td>
-                <td width="10px">
-                    <a href="#" class="btn btn-outline-danger btn-sm">Eliminar</a>
-                    {{-- {!! Form::open(['route' => ['professions.delete', $profession], 'method' => 'DELETE']) !!}
-                        <button class="btn btn-outline-danger btn-sm">
-                            Eliminar
-                        </button>
-                    {!! Form::close() !!} --}}
+                    <a href="{{ route('professions.edit', $profession) }}" class="btn btn-outline-warning btn-sm">Editar</a>
                 </td>
             </tr>
             @endforeach

@@ -25,7 +25,7 @@
             </th>
         </thead>
         <tbody>
-            @forelse($users as $user)
+            @foreach($users as $user)
             <tr>
                 <td width="10px">{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>

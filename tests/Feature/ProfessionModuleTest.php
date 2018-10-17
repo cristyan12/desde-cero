@@ -15,7 +15,7 @@ class ProfessionModuleTest extends TestCase
     function it_can_loads_the_list_of_professions()
     {
         $profession = $this->create(Profession::class, ['title' => 'Profesión 101']);
-        
+
         $response = $this->get(route('professions.index'))
             ->assertStatus(200)
             ->assertViewIs('professions.index')
@@ -37,7 +37,7 @@ class ProfessionModuleTest extends TestCase
     function it_can_create_a_new_profession()
     {
         $this->withoutExceptionHandling();
-        
+
         $this->post(route('professions.store'), [
             'title' => 'Profesión 101'
         ])->assertRedirect(route('professions.index'));
@@ -111,7 +111,7 @@ class ProfessionModuleTest extends TestCase
     function it_update_a_profession()
     {
         $this->withoutExceptionHandling();
-        
+
         $profession = $this->create(Profession::class);
 
         $this->put(route('professions.update', $profession), [
@@ -119,5 +119,37 @@ class ProfessionModuleTest extends TestCase
         ])->assertRedirect(route('professions.show', $profession));
 
         $this->assertDatabaseHas('professions', ['title' => 'Carpintero']);
+    }
+
+     /** @test */
+    function the_title_must_be_unique_when_updating_a_profession()
+    {
+        $existing = $this->create(Profession::class, [
+            'title' => 'Existing-profession'
+        ]);
+
+        $profession = $this->create(Profession::class, [
+            'title' => 'Another-profession'
+        ]);
+
+        $this->from(route('professions.edit', $profession))
+            ->put("professions/{$profession->id}", [
+                'title' => 'Existing-profession'
+            ])
+            ->assertRedirect(route('professions.edit', $profession))
+            ->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    function it_deletes_a_profession()
+    {
+        $this->withoutExceptionHandling();
+
+        $profession = $this->create(Profession::class);
+
+        $this->delete("professions/{$profession->id}")
+            ->assertRedirect(route('professions.index'));
+
+        $this->assertSame(0, Profession::count());
     }
 }

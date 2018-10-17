@@ -18,16 +18,11 @@
                 Volver al listado de Profesiones
             </a>
             <div class="btn-group float-right">
-                <a href="#" class="btn btn-outline-warning btn-sm">
-                Editar
+                <a href="{{ route('professions.edit', $profession) }}" class="btn btn-outline-warning btn-sm">
+                    Editar
                 </a>
-                {{-- {!! Form::open(['route' => ['professions.delete', $profession->id], 'method' => 'DELETE']) !!}
-                    <button class="btn btn-outline-danger btn-sm">
-                        Eliminar
-                    </button>
-                {!! Form::close() !!} --}}
             </div>
         </div>
     </div>
-</div> 
+</div>
 @endsection
