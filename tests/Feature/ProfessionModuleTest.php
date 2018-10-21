@@ -3,9 +3,10 @@
 namespace Tests\Feature;
 
 use App\Profession;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class ProfessionModuleTest extends TestCase
 {
@@ -138,18 +139,5 @@ class ProfessionModuleTest extends TestCase
             ])
             ->assertRedirect(route('professions.edit', $profession))
             ->assertSessionHasErrors(['title']);
-    }
-
-    /** @test */
-    function it_deletes_a_profession()
-    {
-        $this->withoutExceptionHandling();
-
-        $profession = $this->create(Profession::class);
-
-        $this->delete("professions/{$profession->id}")
-            ->assertRedirect(route('professions.index'));
-
-        $this->assertSame(0, Profession::count());
     }
 }

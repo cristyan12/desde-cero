@@ -56,11 +56,4 @@ class ProfessionController extends Controller
 
         return redirect()->route('professions.show', $profession);
     }
-
-    public function destroy(Profession $profession)
-    {
-        $profession->delete();
-
-        return redirect()->route('professions.index');
-    }
 }

@@ -13,7 +13,7 @@ class UserController extends Controller
         $users = User::with('profession')
             ->orderBy('id', 'DESC')
             ->paginate(10);
-        
+
         return view('users.index', compact('users'));
     }
 
@@ -24,9 +24,9 @@ class UserController extends Controller
         return view('users.create', compact('professions'));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $data = request()->validate([
+        $data = $request->validate([
             'name'          => 'required',
             'email'         => 'required|email|unique:users,email',
             'profession_id' => 'required',
@@ -37,7 +37,7 @@ class UserController extends Controller
             'email.unique'              => 'El Email ingresado ya está registrado.',
             'profession_id.required'    => 'El campo Profesión es obligatorio.',
         ]);
-        
+
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -93,7 +93,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        
+
         return redirect()->route('users.index');
     }
 }
