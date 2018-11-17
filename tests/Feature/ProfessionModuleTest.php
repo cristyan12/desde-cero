@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Profession;
-use App\User;
+use App\{ProfessionUser, Profession};
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

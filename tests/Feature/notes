@@ -1,0 +1,12 @@
+'name' => 'NOMBRE_EMPLEADO',
+'last_name' => 'APELLIDO_EMPLEADO',
+'document_identity' => 'A-01234567',
+'born_country' => 'PAIS_NACIONALIDAD_EMPLEADO',
+'born_date' => '1979-12-31'
+'hire_date' => '2009-12-31',
+'address' => 'DIRECCION_DEL_EMPLEADO',
+'profession_id' => $profession->id,
+'cell_phone' => 'TELEFONO_CELULAR_DEL_EMPLEADO',
+'home_phone' => 'TELEFONO_CASA_DEL_EMPLEADO',
+'position' => 'CARGO_EMPLEADO',
+'journal_type' => 'TIPO_DE_JORNADA_DIARIA_NOCTURNA_MIXTA'

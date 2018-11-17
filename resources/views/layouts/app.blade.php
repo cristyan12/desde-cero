@@ -1,6 +1,6 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -12,53 +12,61 @@
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/footer-navbar.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    Home
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-    {{-- Font awesome icons --}}
-    {{-- <link href="{{ asset('css/font-awesome-all.css') }}" rel="stylesheet"> --}}
-  </head>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a href="{{ route('users.index') }}" class="nav-link">
+                                Usuarios <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="{{ route('professions.index') }}" class="nav-link">
+                                Profesiones <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
 
-  <body>
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Authentication Links -->
+                        @include('layouts._auth')
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-    <header>
-      <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="{{ url('/') }}">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{ route('users.index') }}">
-                Usuarios <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{ route('professions.index') }}">
-                Profesiones <span class="sr-only">(current)</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-
-    <!-- Begin page content -->
-    <div class="container">
-        <div class="row mt-3">
-            <div class="col-12 mx-auto">
-                @yield('content')
+        <div class="container py-4">
+            <div class="row mt-3">
+                <div class="col-12 mx-auto">
+                    @yield('content')
+                </div>
             </div>
         </div>
-    </div>
 
-    <footer class="footer">
-        <div class="container">
-            <span class="text-muted">2018 &copy; - Cristyan Valera</span>
-        </div>
-    </footer>
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted">2018 &copy; - Cristyan Valera</span>
+            </div>
+        </footer>
+    </div>
+</body>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -66,5 +74,4 @@
     <script src="{{ asset('js/jquery-3.3.1.slim.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-  </body>
 </html>

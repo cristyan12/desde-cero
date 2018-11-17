@@ -12,4 +12,9 @@ abstract class TestCase extends BaseTestCase
     {
         return factory($class)->create($attributes);
     }
+
+    public function someUser()
+    {
+        return factory(\App\User::class)->create(['email' => 'some-email@mail.com']);
+    }
 }
