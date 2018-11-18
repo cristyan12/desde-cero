@@ -71,24 +71,13 @@ class EmployeesTest extends TestCase
             ]))
             ->assertRedirect(route('employees.index'));
 
-        $this->assertDatabaseHas('employees', [
-            'name'              => 'Cristyan',
-            'last_name'         => 'Valera',
-            'document_identity' => '14996210',
-            'profession_id'     => $profession->id,
-            'email'             => 'numenor21@mail.com',
-            'cell_phone'        => '04120529549',
-            'home_phone'        => '02572513131',
-            'position_id'       => $position->id
-        ]);
+        $employee = Employee::first();
 
-        // $employee = Employee::first();
-
-        // $this->assertEquals(1, Employee::count(), 'No hay registros.');
-        // $this->assertSame('Cristyan', $employee->name);
-        // $this->assertSame('Valera', $employee->last_name);
-        // $this->assertSame('14996210', $employee->document_identity);
-        // $this->assertSame('Licenciado en administración', $employee->profession->name);
-        // $this->assertSame('Cajero', $employee->position->name);
+        $this->assertEquals(1, Employee::count(), 'No hay registros.');
+        $this->assertSame('Cristyan', $employee->name);
+        $this->assertSame('Valera', $employee->last_name);
+        $this->assertSame('14996210', $employee->document_identity);
+        $this->assertSame('Licenciado en administración', $employee->profession->title);
+        $this->assertSame('Cajero', $employee->position->title);
     }
 }
