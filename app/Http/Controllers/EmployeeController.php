@@ -20,4 +20,11 @@ class EmployeeController extends Controller
 
         return view('employees.create', compact('professions'));
     }
+
+    public function store(Request $request)
+    {
+        Employee::create($request->all());
+
+        return redirect()->route('employees.index');
+    }
 }

@@ -14,7 +14,8 @@ class UsersModuleTest extends TestCase
     /** @test */
     function it_loads_the_new_user_page()
     {
-        $response = $this->get('/users/create')
+        $response = $this->actingAs($this->someUser())
+            ->get('/users/create')
             ->assertStatus(200)
             ->assertViewIs('users.create')
             ->assertSee('Crear Usuario');
@@ -38,7 +39,7 @@ class UsersModuleTest extends TestCase
             'email' => 'cristyan12@mail.com',
             'profession_id' => $profession->id,
         ]);
-        
+
         $response = $this->get(route('users.show', $user))
             ->assertStatus(200)
             ->assertSee('Cristyan Valera')
@@ -48,7 +49,7 @@ class UsersModuleTest extends TestCase
 
     /** @test */
     function it_show_a_default_message_when_list_of_user_is_empty()
-    {   
+    {
         $response = $this->get(route('users.index'))
             ->assertStatus(200)
             ->assertSee('No hay usuarios registrados');
@@ -61,11 +62,12 @@ class UsersModuleTest extends TestCase
             'title' => 'Desarrollador web'
         ]);
 
-        $this->post(route('users.store'), [
-            'name' => 'Cristyan',
-            'email' => 'cristyan12@mail.com',
-            'profession_id' => $profession->id,
-            'password' => '123456'
+        $this->actingAs($this->someUser())
+            ->post(route('users.store'), [
+                'name' => 'Cristyan',
+                'email' => 'cristyan12@mail.com',
+                'profession_id' => $profession->id,
+                'password' => '123456'
         ])->assertRedirect(route('users.index'));
 
         $this->assertCredentials([
@@ -82,16 +84,17 @@ class UsersModuleTest extends TestCase
         $profession = $this->create(Profession::class);
 
         $this->from('users')
-            ->post(route('users.store'), [
-                'name' => '',
-                'email' => 'cristyan12@mail.com',
-                'profession' => $profession->id,
-                'password' => '123456'
-            ])
-            ->assertRedirect(route('users.store'))
-            ->assertSessionHasErrors(['name']);
+            ->actingAs($this->someUser())
+                ->post(route('users.store'), [
+                    'name' => '',
+                    'email' => 'cristyan12@mail.com',
+                    'profession' => $profession->id,
+                    'password' => '123456'
+                ])
+                ->assertRedirect(route('users.store'))
+                ->assertSessionHasErrors(['name']);
 
-        $this->assertEquals(0, User::count());
+        $this->assertEquals(1, User::count());
     }
 
     /** @test */
@@ -99,17 +102,18 @@ class UsersModuleTest extends TestCase
     {
         $profession = $this->create(Profession::class);
 
-        $this->from('users')
-            ->post(route('users.store'), [
-                'name' => 'Cristyan',
-                'email' => '',
-                'profession' => $profession->id,
-                'password' => '123456'
-            ])
-            ->assertRedirect(route('users.store'))
-            ->assertSessionHasErrors(['email']);
+        $this->actingAs($this->someUser())
+            ->from('users')
+                ->post(route('users.store'), [
+                    'name' => 'Cristyan',
+                    'email' => '',
+                    'profession' => $profession->id,
+                    'password' => '123456'
+                ])
+                ->assertRedirect(route('users.store'))
+                ->assertSessionHasErrors(['email']);
 
-        $this->assertEquals(0, User::count());
+        $this->assertEquals(1, User::count());
     }
 
     /** @test */
@@ -117,27 +121,29 @@ class UsersModuleTest extends TestCase
     {
         $profession = $this->create(Profession::class);
 
-        $this->from('users')
-            ->post(route('users.store'), [
-                'name' => 'Cristyan',
-                'email' => 'correo-no-valido',
-                'profession' => $profession->id,
-                'password' => '123456'
-            ])
-            ->assertRedirect(route('users.store'))
-            ->assertSessionHasErrors(['email']);
+        $this->actingAs($this->someUser())
+            ->from('users')
+                ->post(route('users.store'), [
+                    'name' => 'Cristyan',
+                    'email' => 'correo-no-valido',
+                    'profession' => $profession->id,
+                    'password' => '123456'
+                ])
+                ->assertRedirect(route('users.store'))
+                ->assertSessionHasErrors(['email']);
 
-        $this->assertEquals(0, User::count());
+        $this->assertEquals(1, User::count());
     }
 
     /** @test */
     function the_email_field_must_be_unique()
-    {        
+    {
         $this->create(User::class, ['email' => 'cristyan@mail.com']);
 
         $profession = $this->create(Profession::class);
 
-        $this->from('users')
+        $this->actingAs($this->someUser())
+            ->from('users')
             ->post(route('users.store'), [
                 'name' => 'Cristyan',
                 'email' => 'cristyan@mail.com',
@@ -147,7 +153,7 @@ class UsersModuleTest extends TestCase
             ->assertRedirect(route('users.store'))
             ->assertSessionHasErrors(['email']);
 
-        $this->assertEquals(1, User::count());
+        $this->assertEquals(2, User::count());
     }
 
     /** @test */
@@ -161,7 +167,8 @@ class UsersModuleTest extends TestCase
             'profession_id' => $profession->id
         ]);
 
-        $this->get("users/{$user->id}/edit")
+        $this->actingAs($this->someUser())
+            ->get("users/{$user->id}/edit")
             ->assertStatus(200)
             ->assertViewIs('users.edit')
             ->assertViewHasAll(['user', 'professions'])
@@ -177,12 +184,13 @@ class UsersModuleTest extends TestCase
 
         $user = $this->create(User::class);
 
-        $this->put(route('users.update', $user->id), [
-            'name' => 'Cristyan',
-            'email' => 'cristyan12@mail.com',
-            'profession_id' => $profession->id,
-            'password' => '123456'
-        ])->assertRedirect(route('users.show', $user));
+        $this->actingAs($this->someUser())
+            ->put(route('users.update', $user->id), [
+                'name' => 'Cristyan',
+                'email' => 'cristyan12@mail.com',
+                'profession_id' => $profession->id,
+                'password' => '123456'
+            ])->assertRedirect(route('users.show', $user));
 
         $this->assertCredentials([
             'name' => 'Cristyan',
@@ -196,9 +204,9 @@ class UsersModuleTest extends TestCase
     function the_email_must_be_unique_when_updating_a_user()
     {
         // $this->withoutExceptionHandling();
-        
+
         $profession = $this->create(Profession::class);
-     
+
         $this->create(User::class, [
             'email' => 'existing-email@mail.com'
         ]);
@@ -207,15 +215,16 @@ class UsersModuleTest extends TestCase
             'email' => 'cristyan12@mail.com'
         ]);
 
-        $this->from(route('users.edit', $user->id))
-            ->put("users/{$user->id}", [
-                'name' => 'Cristyan',
-                'email' => 'existing-email@mail.com',
-                'profession_id' => $profession->id,
-                'password' => '123456'
-            ])
-            ->assertRedirect(route('users.edit', $user->id))
-            ->assertSessionHasErrors(['email']);
+        $this->actingAs($this->someUser())
+            ->from(route('users.edit', $user->id))
+                ->put("users/{$user->id}", [
+                    'name' => 'Cristyan',
+                    'email' => 'existing-email@mail.com',
+                    'profession_id' => $profession->id,
+                    'password' => '123456'
+                ])
+                ->assertRedirect(route('users.edit', $user->id))
+                ->assertSessionHasErrors(['email']);
 
         // $this->assertDatabaseMissing('users', ['email' => 'cristyan12@mail.com']);
     }
@@ -224,18 +233,19 @@ class UsersModuleTest extends TestCase
     function the_name_field_is_required_when_updating_a_user()
     {
         $profession = $this->create(Profession::class);
-        
+
         $user = $this->create(User::class);
 
-        $this->from(route('users.edit', $user->id))
-            ->put("users/{$user->id}", [
-                'name' => '',
-                'email' => 'cristyan12@mail.com',
-                'profession_id' => $profession->id,
-                'password' => '123456'
-            ])
-            ->assertRedirect(route('users.edit', $user->id))
-            ->assertSessionHasErrors(['name']);
+        $this->actingAs($this->someUser())
+            ->from(route('users.edit', $user->id))
+                ->put("users/{$user->id}", [
+                    'name' => '',
+                    'email' => 'cristyan12@mail.com',
+                    'profession_id' => $profession->id,
+                    'password' => '123456'
+                ])
+                ->assertRedirect(route('users.edit', $user->id))
+                ->assertSessionHasErrors(['name']);
 
         $this->assertDatabaseMissing('users', ['email' => 'cristyan12@mail.com']);
     }
@@ -244,18 +254,19 @@ class UsersModuleTest extends TestCase
     function the_email_field_is_required_when_updating_a_user()
     {
         $profession = $this->create(Profession::class);
-        
+
         $user = $this->create(User::class);
 
-        $this->from(route('users.edit', $user->id))
-            ->put("users/{$user->id}", [
-                'name' => 'Cristyan',
-                'email' => '',
-                'profession_id' => $profession->id,
-                'password' => '123456'
-            ])
-            ->assertRedirect(route('users.edit', $user->id))
-            ->assertSessionHasErrors(['email']);
+        $this->actingAs($this->someUser())
+            ->from(route('users.edit', $user->id))
+                ->put("users/{$user->id}", [
+                    'name' => 'Cristyan',
+                    'email' => '',
+                    'profession_id' => $profession->id,
+                    'password' => '123456'
+                ])
+                ->assertRedirect(route('users.edit', $user->id))
+                ->assertSessionHasErrors(['email']);
 
         $this->assertDatabaseMissing('users', ['name' => 'Cristyan']);
     }
@@ -264,18 +275,19 @@ class UsersModuleTest extends TestCase
     function the_email_field_is_must_be_valid_when_updating_a_user()
     {
         $profession = $this->create(Profession::class);
-        
+
         $user = $this->create(User::class);
 
-        $this->from(route('users.edit', $user->id))
-            ->put("users/{$user->id}", [
-                'name' => 'Cristyan',
-                'email' => 'correo-no-valido',
-                'profession_id' => $profession->id,
-                'password' => '123456'
-            ])
-            ->assertRedirect(route('users.edit', $user->id))
-            ->assertSessionHasErrors(['email']);
+        $this->actingAs($this->someUser())
+            ->from(route('users.edit', $user->id))
+                ->put("users/{$user->id}", [
+                    'name' => 'Cristyan',
+                    'email' => 'correo-no-valido',
+                    'profession_id' => $profession->id,
+                    'password' => '123456'
+                ])
+                ->assertRedirect(route('users.edit', $user->id))
+                ->assertSessionHasErrors(['email']);
 
         $this->assertDatabaseMissing('users', ['name' => 'Cristyan']);
     }
@@ -285,15 +297,16 @@ class UsersModuleTest extends TestCase
     {
         $user = $this->create(User::class);
 
-        $this->from(route('users.edit', $user->id))
-            ->put("users/{$user->id}", [
-                'name' => 'Cristyan',
-                'email' => '',
-                'profession_id' => '',
-                'password' => '123456'
-            ])
-            ->assertRedirect(route('users.edit', $user->id))
-            ->assertSessionHasErrors(['profession_id']);
+        $this->actingAs($this->someUser())
+            ->from(route('users.edit', $user->id))
+                ->put("users/{$user->id}", [
+                    'name' => 'Cristyan',
+                    'email' => '',
+                    'profession_id' => '',
+                    'password' => '123456'
+                ])
+                ->assertRedirect(route('users.edit', $user->id))
+                ->assertSessionHasErrors(['profession_id']);
 
         $this->assertDatabaseMissing('users', ['name' => 'Cristyan']);
     }
@@ -304,19 +317,20 @@ class UsersModuleTest extends TestCase
         $oldPassword = 'CLAVE_ANTERIOR';
 
         $profession = $this->create(Profession::class);
-        
+
         $user = $this->create(User::class, [
             'password' => bcrypt($oldPassword)
         ]);
 
-        $this->from(route('users.edit', $user->id))
-            ->put("users/{$user->id}", [
-                'name' => 'Cristyan',
-                'email' => 'cristyan12@mail.com',
-                'profession_id' => $profession->id,
-                'password' => ''
-            ])
-            ->assertRedirect(route('users.show', $user));
+        $this->actingAs($this->someUser())
+            ->from(route('users.edit', $user->id))
+                ->put("users/{$user->id}", [
+                    'name' => 'Cristyan',
+                    'email' => 'cristyan12@mail.com',
+                    'profession_id' => $profession->id,
+                    'password' => ''
+                ])
+                ->assertRedirect(route('users.show', $user));
 
         $this->assertCredentials([
             'name' => 'Cristyan',
@@ -330,9 +344,10 @@ class UsersModuleTest extends TestCase
     {
         $user = $this->create(User::class);
 
-        $this->delete("users/{$user->id}")
+        $this->actingAs($this->someUser())
+            ->delete("users/{$user->id}")
             ->assertRedirect(route('users.index'));
 
-        $this->assertSame(0, User::count());
+        $this->assertSame(1, User::count());
     }
 }

@@ -27,7 +27,8 @@ class ProfessionModuleTest extends TestCase
     /** @test */
     function it_can_loads_the_new_page_of_professions()
     {
-        $response = $this->get(route('professions.create'))
+        $response = $this->actingAs($this->someUser())
+            ->get(route('professions.create'))
             ->assertStatus(200)
             ->assertViewIs('professions.create')
             ->assertSee('Crear nueva profesión');
@@ -38,9 +39,10 @@ class ProfessionModuleTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->post(route('professions.store'), [
-            'title' => 'Profesión 101'
-        ])->assertRedirect(route('professions.index'));
+        $this->actingAs($this->someUser())
+            ->post(route('professions.store'), [
+                'title' => 'Profesión 101'
+            ])->assertRedirect(route('professions.index'));
 
         $this->assertDatabaseHas('professions', [
             'title' => 'Profesión 101'
@@ -50,7 +52,8 @@ class ProfessionModuleTest extends TestCase
     /** @test */
     function the_title_field_is_required()
     {
-        $response = $this->from('/professions')
+        $response = $this->actingAs($this->someUser())
+            ->from('/professions')
             ->post(route('professions.store'), [
                 'title' => ''
             ])
@@ -65,7 +68,8 @@ class ProfessionModuleTest extends TestCase
     {
         $profession = $this->create(Profession::class, ['title' => 'Profesión 101']);
 
-        $response = $this->from('/professions')
+        $response = $this->actingAs($this->someUser())
+            ->from('/professions')
             ->post(route('professions.store'), [
                 'title' => 'Profesión 101'
             ])
@@ -99,7 +103,8 @@ class ProfessionModuleTest extends TestCase
             'title' => 'Carpintero'
         ]);
 
-        $response = $this->get(route('professions.edit', $profession))
+        $response = $this->actingAs($this->someUser())
+            ->get(route('professions.edit', $profession))
             ->assertStatus(200)
             ->assertViewIs('professions.edit')
             ->assertViewHas('profession')
@@ -114,7 +119,7 @@ class ProfessionModuleTest extends TestCase
 
         $profession = $this->create(Profession::class);
 
-        $this->put(route('professions.update', $profession), [
+        $this->actingAs($this->someUser())->put(route('professions.update', $profession), [
             'title' => 'Carpintero'
         ])->assertRedirect(route('professions.show', $profession));
 
@@ -132,7 +137,7 @@ class ProfessionModuleTest extends TestCase
             'title' => 'Another-profession'
         ]);
 
-        $this->from(route('professions.edit', $profession))
+        $this->actingAs($this->someUser())->from(route('professions.edit', $profession))
             ->put("professions/{$profession->id}", [
                 'title' => 'Existing-profession'
             ])
