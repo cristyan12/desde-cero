@@ -1,5 +1,0 @@
-'born_country' => 'PAIS_NACIONALIDAD_EMPLEADO',
-'born_date' => '1979-12-31'
-'hire_date' => '2009-12-31',
-'address' => 'DIRECCION_DEL_EMPLEADO',
-'journal_type' => 'TIPO_DE_JORNADA_DIARIA_NOCTURNA_MIXTA'

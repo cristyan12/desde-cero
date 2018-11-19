@@ -18,13 +18,16 @@ class CreateEmployeesTable extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->string('document_identity');
+            $table->date('born_date');
+            $table->date('hire_date');
 
             $table->unsignedInteger('profession_id');
             $table->foreign('profession_id')->references('id')->on('professions');
 
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('cell_phone');
             $table->string('home_phone')->nullable();
+            $table->text('address')->nullable();
 
             $table->timestamps();
         });
