@@ -1,22 +1,4 @@
 <?php
-
-Route::view('/', 'home');
-
-Route::get('/users', 'UserController@index')->name('users.index');
-
-Route::get('users/{user}', 'UserController@show')->name('users.show')
-    ->where('user', '[0-9]+');
-
-Route::get('saludos/{name}/{nickname}', 'WelcomeUserController@greetings');
-Route::get('saludos/{name}', 'WelcomeUserController@withoutNickname');
-
-Route::get('/professions', 'ProfessionController@index')->name('professions.index');
-
-Route::get('professions/{profession}', 'ProfessionController@show')->name('professions.show')
-    ->where('profession', '[0-9]+');
-
-Route::get('/employees', 'EmployeeController@index')->name('employees.index');
-
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
@@ -36,6 +18,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('professions/{profession}', 'ProfessionController@destroy')->name('professions.delete');
 
     // Employees
-    Route::get('employees/create', 'EmployeeController@create')->name('employees.create');
     Route::post('employees', 'EmployeeController@store')->name('employees.store');
 });
+
+Route::view('/', 'home');
+
+Route::get('/users', 'UserController@index')->name('users.index');
+Route::get('users/{user}', 'UserController@show')->name('users.show')
+    ->where('user', '[0-9]+');
+
+Route::get('saludos/{name}/{nickname}', 'WelcomeUserController@greetings');
+Route::get('saludos/{name}', 'WelcomeUserController@withoutNickname');
+
+Route::get('/professions', 'ProfessionController@index')->name('professions.index');
+Route::get('professions/{profession}', 'ProfessionController@show')->name('professions.show')
+    ->where('profession', '[0-9]+');
+
+Route::get('/employees', 'EmployeeController@index')->name('employees.index');
+Route::get('employees/create', 'EmployeeController@create')->name('employees.create');

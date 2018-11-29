@@ -7,7 +7,7 @@
 <div class="d-flex justify-content-between align-items-end mb-3">
     <h1 class="pb-1 display-4">Empleados</h1>
     <p>
-        <a href="#" class="btn btn-outline-primary">
+        <a href="{{ route('employees.create') }}" class="btn btn-outline-primary">
             Nuevo empleado
         </a>
     </p>

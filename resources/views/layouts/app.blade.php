@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>@yield('title') | Styde</title>
+    <title>@yield('title')</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -39,6 +39,11 @@
                         <li class="nav-item active">
                             <a href="{{ route('professions.index') }}" class="nav-link">
                                 Profesiones <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="{{ route('employees.index') }}" class="nav-link">
+                                Empleados <span class="sr-only">(current)</span>
                             </a>
                         </li>
                     </ul>

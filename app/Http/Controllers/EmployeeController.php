@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Employee, Profession};
+use App\{Country, Employee, Journal, Position, Profession};
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -17,14 +17,16 @@ class EmployeeController extends Controller
     public function create()
     {
         $professions = Profession::orderBy('id')->pluck('title', 'id');
+        $countries = Country::orderBy('id')->pluck('name', 'id');
+        $journalsType = Journal::orderBy('id')->pluck('type', 'id');
 
-        return view('employees.create', compact('professions'));
+        return view('employees.create', compact(
+            'professions', 'countries', 'journalsType'
+        ));
     }
 
     public function store(Request $request)
     {
-        Employee::create($request->all());
-
-        return redirect()->route('employees.index');
+        dd($request->all());
     }
 }
