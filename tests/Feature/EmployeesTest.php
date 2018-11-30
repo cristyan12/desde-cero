@@ -60,10 +60,6 @@ class EmployeesTest extends TestCase
             'title' => 'Licenciado en administración'
         ]);
 
-        $position = $this->create(Position::class, [
-            'title' => 'Cajero'
-        ]);
-
         $journalType = $this->create(Journal::class, [
             'type' => 'DIURNA'
         ]);
@@ -81,7 +77,6 @@ class EmployeesTest extends TestCase
                 'cell_phone'        => '04120529549',
                 'home_phone'        => '02572513137',
                 'address'           => 'Guanare, barrio Buenos Aires, calle 3 via la cancha',
-                'position_id'       => $position->id,
                 'journal_type'      => $journalType->id
             ]))
             ->assertRedirect(route('employees.index'));
@@ -103,7 +98,6 @@ class EmployeesTest extends TestCase
             'Guanare, barrio Buenos Aires, calle 3 via la cancha',
             $employee->address
         );
-        $this->assertSame('Cajero', $employee->position->title);
         $this->assertSame('DIURNA', $employee->journal->type);
     }
 }
