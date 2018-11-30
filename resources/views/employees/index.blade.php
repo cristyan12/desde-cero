@@ -17,9 +17,24 @@
     <table class="table table-borderless table-striped table-hover">
         <thead class="bg-dark text-white">
             <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cargo que ocupa</th>
+            <th>Tipo de jornada</th>
+            <th colspan="2">
+                &nbsp;
+            </th>
         </thead>
         <tbody>
-
+            @foreach($employees as $employee)
+            <tr>
+                <td>{{ $employee->id }}</td>
+                <td>{{ $employee->name }}</td>
+                <td>{{ $employee->last_name }}</td>
+                <td>{{ $employee->profession->title }}</td>
+                <td>{{ $employee->journal->type }}</td>
+            </tr>
+            @endforeach
         </tbody>
     </table>
 @else

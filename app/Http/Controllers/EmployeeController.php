@@ -9,7 +9,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = Employee::orderBy('id', 'DESC')->paginate(10);
+        $employees = Employee::orderBy('id')->paginate(10);
 
         return view('employees.index', compact('employees'));
     }
@@ -17,7 +17,7 @@ class EmployeeController extends Controller
     public function create()
     {
         $professions = Profession::orderBy('id')->pluck('title', 'id');
-        $countries = Country::orderBy('id')->pluck('name', 'id');
+        $countries = Country::orderBy('name')->pluck('name', 'id');
         $journalsType = Journal::orderBy('id')->pluck('type', 'id');
 
         return view('employees.create', compact(
