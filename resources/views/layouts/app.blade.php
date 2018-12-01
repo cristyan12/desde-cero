@@ -14,12 +14,14 @@
 
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/footer-navbar.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel">
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Home
@@ -57,19 +59,21 @@
             </div>
         </nav>
 
+        @include('layouts._sidebar')
+
         <div class="container py-4">
             <div class="row mt-3">
                 <div class="col-12 mx-auto">
                     @yield('content')
                 </div>
             </div>
-        </div>
 
-        <footer class="footer">
-            <div class="container">
-                <span class="text-muted">2018 &copy; - Cristyan Valera</span>
+            <div class="row mt-3">
+                <footer class="footer">
+                    <span class="text-muted">2018 &copy; - Cristyan Valera</span>
+                </footer>
             </div>
-        </footer>
+        </div>
     </div>
 </body>
 
@@ -79,4 +83,8 @@
     <script src="{{ asset('js/jquery-3.3.1.slim.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/feather.min.js') }}"></script>
+    <script>
+      feather.replace()
+    </script>
 </html>
